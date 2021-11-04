@@ -40,7 +40,6 @@ const props = defineProps({
   token: {
     type: String,
     default: null,
-    required: true,
   },
   type: {
     type: String,
@@ -77,17 +76,21 @@ const url = computed(() => {
   }
   return `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${props.type}`;
 });
-
-const params = computed(() => ({
-  method: 'POST',
-  url: url.value,
-  headers: {
-    Authorization: `Token ${props.token}`,
-    'content-type': 'application/json',
-    accept: 'application/json',
-  },
-  data: { ...props.params, query: localValue.value },
-}));
+const params = computed(() => {
+  if (props.token) {
+    return {
+      method: 'POST',
+      url: url.value,
+      headers: {
+        Authorization: `Token ${props.token}`,
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+      data: { ...props.params, query: localValue.value },
+    };
+  }
+  return null;
+});
 
 onMounted(() => {
   document.addEventListener('click', (event) => {
@@ -98,12 +101,13 @@ onMounted(() => {
 });
 
 const search = () => {
+  if (!params.value) return;
   axios(params.value).then((response) => {
     if (response && response.data) {
       if (typeof response.data.suggestions !== 'undefined') {
         suggestions.value = response.data.suggestions;
       } else {
-        console.error('DaDataV3:Свойство suggestions не найдено');
+        console.error('vue-dadata-3:Свойство suggestions не найдено');
       }
     }
   });
@@ -128,24 +132,24 @@ const onFocus = () => {
 const prepareResults = (data, key) => {
   let copyValue = data.value;
   if (!key) {
-    console.error('Укажите ключ в объекте');
+    console.error('vue-dadata-3: Укажите ключ в объекте');
     return;
   }
   if (typeof key === 'object') {
     const keyParent = Object.keys(key)[0];
     if (!data[keyParent]) {
-      console.error(`${keyParent} не найден в объекте dadata`);
+      console.error(`vue-dadata-3: ${keyParent} не найден в объекте dadata`);
       return;
     }
     const keyChild = key[keyParent];
     if (!data[keyParent][keyChild]) {
-      console.error(`${keyChild} не найден в объекте dadata`);
+      console.error(`vue-dadata-3: ${keyChild} не найден в объекте dadata`);
       return;
     }
     copyValue = data[keyParent][keyChild];
   } else if (typeof key === 'string') {
     if (!data[key]) {
-      console.error(`${key} не найден в объекте dadata`);
+      console.error(`vue-dadata-3: ${key} не найден в объекте dadata`);
       return;
     }
     copyValue = data[key];
@@ -168,5 +172,12 @@ watch(() => localValue.value, (val) => {
     showList.value = false;
     suggestions.value = [];
   }
+});
+watch(() => props.token, (val) => {
+  if (!val) {
+    console.error('vue-dadata-3:Не указан токен');
+  }
+}, {
+  immediate: true,
 });
 </script>

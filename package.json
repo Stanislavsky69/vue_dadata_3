@@ -1,9 +1,9 @@
 {
-  "name": "vue_dadata_3",
-  "version": "1.0.2",
+  "name": "vue-dadata-3",
+  "version": "1.0.0",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
-  "main": "dist/vue_dadata_3.common.js",
+  "main": "dist/vue-dadata-3.common.js",
   "keywords": ["vue3","vuejs","dadata","composition_api","vue", "vuex","vue-plugin"],
   "author": {
     "email": "plugin69@bk.ru",

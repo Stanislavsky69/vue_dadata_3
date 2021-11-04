@@ -1,11 +1,11 @@
-# vue_dadata_3
+# vue-dadata-3
 
 Компонент для работы с сервисом [dadata](https://dadata.ru/)
 
 ### Запуск
 
 ```
-npm install vue_dadata_3
+npm install vue-dadata-3
 ```
 
 
@@ -41,8 +41,7 @@ const value = ref(null);
 {
   token: {
     type: String,
-    default: null,
-    required: true,
+    default: null
   },
   type: {
     type: String,
