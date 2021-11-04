@@ -1,1 +1,3 @@
-export * as default from './components/DaData.vue';
+import DaDataNext from './components/DaData.vue';
+
+export default DaDataNext;

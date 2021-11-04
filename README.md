@@ -26,6 +26,14 @@ const value = ref(null);
 </script>
 ```
 
+### Стилизация
+
+Нужно подключить файлы стилей так:
+```
+@import "~vue_dadata_3/src/assets/variabless";
+@import "~vue_dadata_3/src/assets/styles";
+```
+
 
 ### Состояния
 
