@@ -1,3 +1,10 @@
-import DaDataNext from './components/DaData.vue';
+import DaData from './components/DaData.vue';
 
-export default DaDataNext;
+export default {
+  install(app, options) {
+    app.provide('da-data-next-options', options);
+    app.component((options && options.tag) || 'da-data-next', DaData);
+  },
+};
+
+export const DaDataNext = DaData;

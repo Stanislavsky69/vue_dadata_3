@@ -8,30 +8,47 @@
 npm install vue-dadata-3
 ```
 
+```
+yarn add vue-dadata-3
+```
+
 
 ```
 <template>
    <div>
-        <dadata v-model="value"></dadata>
+        <DaDataNext v-model="value"></DaDataNext>
    </div>
 
 </template>
 <script setup>
 
 import { ref } from 'vue';
-import dadata from 'vue_dadata_3'
+import { DaDataNext } from 'vue-dadata-3'
 
 const value = ref(null);
 
 </script>
 ```
 
+или
+
+```
+import DaDataNext from 'vue-dadata-3';
+
+createApp(App).use(DaDataNext, {
+  tag: 'ИМЯ КОМПОНЕНТА. По умолчанию da-data-next',
+  token: 'ВАШ ТОКЕН',
+}).mount('#app');
+
+```
+Установив токен глобально далее его можно будет переопределить через пропсы.
+
 ### Стилизация
 
 Нужно подключить файлы стилей так:
 ```
-@import "~vue_dadata_3/src/assets/variabless";
-@import "~vue_dadata_3/src/assets/styles";
+@import "~vue-dadata-3/src/assets/variabless";
+@import "~vue-dadata-3/src/assets/styles";
 ```
 
 

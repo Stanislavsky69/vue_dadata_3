@@ -28,12 +28,14 @@ import {
   ref,
   watch,
   toRaw,
+  inject,
   onMounted,
 } from 'vue';
 import axios from 'axios';
 import DaDataList from './DaDataList.vue';
 import DaDataListRow from './DaDataListRow.vue';
 
+const globalOptions = inject('da-data-next-options');
 const emit = defineEmits(['update:modelValue', 'onSelected']);
 const props = defineProps({
   modelValue: String,
@@ -65,6 +67,11 @@ const props = defineProps({
     default: null,
   },
 });
+const token = computed(() => {
+  if (props.token) return props.token;
+  if (globalOptions && globalOptions.token) return globalOptions.token;
+  return null;
+});
 const localValue = ref(props.modelValue);
 const suggestions = ref([]);
 const showList = ref(false);
@@ -77,12 +84,12 @@ const url = computed(() => {
   return `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${props.type}`;
 });
 const params = computed(() => {
-  if (props.token) {
+  if (token.value) {
     return {
       method: 'POST',
       url: url.value,
       headers: {
-        Authorization: `Token ${props.token}`,
+        Authorization: `Token ${token.value}`,
         'content-type': 'application/json',
         accept: 'application/json',
       },
@@ -173,7 +180,7 @@ watch(() => localValue.value, (val) => {
     suggestions.value = [];
   }
 });
-watch(() => props.token, (val) => {
+watch(() => token.value, (val) => {
   if (!val) {
     console.error('vue-dadata-3:Не указан токен');
   }
