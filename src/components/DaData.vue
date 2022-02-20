@@ -22,8 +22,6 @@
 </template>
 <script setup>
 import {
-  defineProps,
-  defineEmits,
   computed,
   ref,
   watch,
@@ -36,7 +34,9 @@ import DaDataList from './DaDataList.vue';
 import DaDataListRow from './DaDataListRow.vue';
 
 const globalOptions = inject('da-data-next-options');
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['update:modelValue', 'onSelected']);
+// eslint-disable-next-line no-undef
 const props = defineProps({
   modelValue: String,
   token: {
@@ -179,12 +179,5 @@ watch(() => localValue.value, (val) => {
     showList.value = false;
     suggestions.value = [];
   }
-});
-watch(() => token.value, (val) => {
-  if (!val) {
-    console.error('vue-dadata-3:Не указан токен');
-  }
-}, {
-  immediate: true,
 });
 </script>
