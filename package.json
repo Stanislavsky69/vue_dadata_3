@@ -1,6 +1,6 @@
 {
   "name": "vue-dadata-3",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
   "main": "dist/vue-dadata-3.common.js",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve server/dev/main.js",
-    "preprod": "vue-cli-service serve server/prod/main.js",
+    "preprod": "npm run build && vue-cli-service serve server/prod/main.js",
     "build": "vue-cli-service build --target lib --modern src/index.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
