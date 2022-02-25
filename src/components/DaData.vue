@@ -66,6 +66,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  customParams: {
+    type: Object,
+    default: () => null,
+  },
 });
 const token = computed(() => {
   if (props.token) return props.token;
@@ -84,6 +88,7 @@ const url = computed(() => {
   return `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${props.type}`;
 });
 const params = computed(() => {
+  if (props.customParams) return props.customParams;
   if (token.value) {
     return {
       method: 'POST',
