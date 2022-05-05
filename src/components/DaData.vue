@@ -93,6 +93,8 @@ const suggestions = ref([]);
 const showList = ref(false);
 const dadataDom = ref(null);
 
+watch(() => props.modelValue, () => { localValue.value = props.modelValue; });
+
 const url = computed(() => {
   if (props.apiUrl) {
     return props.apiUrl;
@@ -130,7 +132,6 @@ const search = () => {
     if (response && response.data) {
       if (typeof response.data.suggestions !== 'undefined') {
         suggestions.value = response.data.suggestions;
-        showList.value = suggestions.value.length;
       } else {
         console.error('vue-dadata-3:Свойство suggestions не найдено');
       }
@@ -194,7 +195,6 @@ watch(() => localValue.value, (val) => {
   if (val) {
     search();
   } else {
-    showList.value = false;
     suggestions.value = [];
   }
 });
