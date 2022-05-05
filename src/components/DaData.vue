@@ -130,7 +130,6 @@ const search = () => {
     if (response && response.data) {
       if (typeof response.data.suggestions !== 'undefined') {
         suggestions.value = response.data.suggestions;
-        showList.value = suggestions.value.length;
       } else {
         console.error('vue-dadata-3:Свойство suggestions не найдено');
       }
@@ -193,8 +192,7 @@ watch(() => localValue.value, (val) => {
   emit('update:modelValue', val);
   if (val) {
     search();
-  } else {
-    showList.value = false;
+  } else {    
     suggestions.value = [];
   }
 });
