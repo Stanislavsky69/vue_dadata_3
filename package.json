@@ -3,14 +3,7 @@
   "version": "1.2.2",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
-  "main": "./dist/vue-dadata-3.umd.js",
-  "module": "./dist/vue-dadata-3.common.js",
-  "exports": {
-    ".": {
-      "import": "./dist/vue-dadata-3.common.js",
-      "require": "./dist/vue-dadata-3.umd.js"
-    }
-  },
+  "main": "dist/vue-dadata-3.umd.js",
   "keywords": [
     "vue3",
     "vuejs",
