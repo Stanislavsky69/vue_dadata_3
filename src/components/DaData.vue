@@ -93,6 +93,8 @@ const suggestions = ref([]);
 const showList = ref(false);
 const dadataDom = ref(null);
 
+watch(() => props.modelValue, () => { localValue.value = props.modelValue; });
+
 const url = computed(() => {
   if (props.apiUrl) {
     return props.apiUrl;
@@ -192,7 +194,7 @@ watch(() => localValue.value, (val) => {
   emit('update:modelValue', val);
   if (val) {
     search();
-  } else {    
+  } else {
     suggestions.value = [];
   }
 });
