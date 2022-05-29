@@ -3,8 +3,28 @@
   "version": "1.2.1",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
-  "main": "dist/vue-dadata-3.common.js",
-  "keywords": ["vue3","vuejs","dadata","composition_api","vue", "vuex","vue-plugin"],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vue-dadata-3.umd.js",
+  "module": "./dist/vue-dadata-3.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-dadata-3.es.js",
+      "require": "./dist/vue-dadata-3.umd.js"
+    }
+  },
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "vue3",
+    "vuejs",
+    "dadata",
+    "composition_api",
+    "vue",
+    "vuex",
+    "vite",
+    "vue-plugin"
+  ],
   "author": {
     "email": "plugin69@bk.ru",
     "name": "Stanislav Odnoletko"
@@ -18,32 +38,21 @@
   },
   "license": "MIT",
   "scripts": {
-    "serve": "vue-cli-service serve server/dev/main.js",
-    "preprod": "npm run build && vue-cli-service serve server/prod/main.js",
-    "build": "vue-cli-service build --target lib --modern src/index.js",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build && build:types",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^0.24.0",
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "axios": "^0.26.1",
+    "vue": "^3.2.25"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-airbnb": "^5.0.2",
-    "@vue/test-utils": "^2.0.0-0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-vue": "^7.0.0",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3",
-    "vue-jest": "^5.0.0-0"
+    "@vitejs/plugin-vue": "^2.2.0",
+    "sass": "^1.49.9",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "vitest": "^0.9.4",
+    "vue-tsc": "^0.29.8"
   }
 }
