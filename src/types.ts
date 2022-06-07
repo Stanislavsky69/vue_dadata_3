@@ -1,13 +1,9 @@
-export type PluginOptions = {
-  tag?: string,
-  token: string
-}
-
 export type DaDataResult<T> = {
   value: string,
   unrestricted_value: string,
   data: T
 }
+
 
 export type DaDataAddressMetro = {
   name: string;
@@ -188,4 +184,47 @@ export type DaDataFio = {
   gender: DaDataGender;
   qc: '0' | '1';
   source: null;
+}
+
+export type DaDataSuggestionAnyType =
+   DaDataResult<DaDataAddress>  | 
+   DaDataResult<DaDataBank>     |  
+   DaDataResult<DaDataParty>    |
+   DaDataResult<DaDataFio>;
+
+export type DaDataSuggestions = {
+  suggestions: DaDataSuggestionAnyType[] 
+}
+
+
+export type PluginOptions = {
+  tag?: string,
+  token: string
+}
+
+export type CssClasses = {
+  root: string,
+  input: string,
+  listEmpty: string,
+  row: string,
+  list: string
+}
+
+export interface IPropsComponentContext {
+  modelValue: string,
+  token: string,
+  type: string,
+  params: any,
+  setInputValue?: (item: DaDataSuggestionAnyType) => string,
+  apiUrl: string,
+  inputName: string,
+  placeholder: string,
+  mergeParams: Record<string, any>,
+  debounce: number,
+  cssClasses: CssClasses | Record<string, string>,
+}
+
+export type CurrentInstance = {
+  props: IPropsComponentContext,
+  emit: (event: string, params: any) => void
 }

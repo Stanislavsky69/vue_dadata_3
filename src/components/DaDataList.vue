@@ -1,8 +1,9 @@
 <template>
   <ul :class="cssClass">
-    <slot></slot>
+    <slot />
   </ul>
 </template>
+
 <script lang="ts" setup>
 defineProps({
   cssClass: {
