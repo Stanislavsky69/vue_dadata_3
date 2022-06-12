@@ -2,7 +2,8 @@ import { describe, it, expect, vi,  afterEach } from 'vitest';
 import { mount, enableAutoUnmount } from '@vue/test-utils';
 import { defineComponent, nextTick, ref } from 'vue';
 
-import { DaDataNext, CSS_CLASSES_DEFAULT } from '../src';
+import { DaDataNext, CSS_CLASSES_DEFAULT } from '../src/index';
+
 import axios from 'axios';
 import AxiosMockAdapter from 'axios-mock-adapter';
 
