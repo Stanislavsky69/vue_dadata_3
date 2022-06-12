@@ -74,9 +74,16 @@ $dadata_v_3_row_hover: #a8a8a8!default;
 Переопределяем переменные следующим образом:
 
 ```
-@import "~vue-dadata-3/styles.scss" with (
+@use "vue-dadata-3/styles" with (
   $dadata_v_3_base_font_size: 14px;
 );
+
+```
+
+Или можно подключить готовый css, например в main.js
+
+```
+import "vue-dadata-3/index.css";
 
 ```
 

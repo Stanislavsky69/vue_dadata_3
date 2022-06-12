@@ -1,11 +1,10 @@
 {
   "name": "vue-dadata-3",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
@@ -14,8 +13,8 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
-    "./dist/index.css": "./dist/index.css",
-    "./dist/styles.scss": "./dist/styles.scss"
+    "./index.css": "./dist/index.css",
+    "./styles.scss": "./dist/styles.scss"
   },
   "types": "./dist/index.d.ts",
   "keywords": [
