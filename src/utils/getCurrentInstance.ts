@@ -7,7 +7,8 @@ export const getCurrentInstance = (): CurrentInstance => {
    if(instance) {
        return {
           props: instance.props as any,
-          emit: instance.emit
+          emit: instance.emit,
+          pluginSettings: instance.appContext.config.globalProperties.$daDataNext ?? ''
        }
    }
 
@@ -17,13 +18,15 @@ export const getCurrentInstance = (): CurrentInstance => {
            cssClasses: {},
            inputName: '',
            modelValue: '',
-           params: null,
            placeholder: '',
            token: '',
            type: '',
            mergeParams: {},
            setInputValue: undefined,
+           debounceWait: 0,
+           debounceOptions: {}
        } as IPropsComponentContext,
-       emit: () => null
+       emit: () => null,
+       pluginSettings: undefined
    }
 };

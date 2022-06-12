@@ -3,22 +3,26 @@ import {
     ref,
     watch,
     toRaw,
-    inject,
     onMounted,
+    PropType,
   } from 'vue';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { debounce } from 'debounce';
-import { merge } from 'lodash-es';
+import { merge, debounce as _debounce } from 'lodash-es';
+import type { DebounceSettings } from "lodash-es";
 
 import { getCurrentInstance } from '../utils/getCurrentInstance';
 import { 
     CssClasses,
     DaDataSuggestionAnyType,
     DaDataSuggestions,
-    PluginOptions
+    ComposableDaData
 } from '../types';
 
-import { dadataNextOptions } from '../constants';
+
+const DEBOUNCE_DEFAULT_SETTINGS: DebounceSettings = {
+    leading: false,
+    trailing: true
+}
 
 
 export const CSS_CLASSES_DEFAULT: CssClasses = {
@@ -30,7 +34,10 @@ export const CSS_CLASSES_DEFAULT: CssClasses = {
 }
 
 export const propsComponent = {
-    modelValue: String,
+    modelValue: {
+        type: String,
+        required: true
+    },
     token: {
       type: String,
       default: null,
@@ -38,10 +45,6 @@ export const propsComponent = {
     type: {
       type: String,
       default: 'address',
-    },
-    params: {
-      type: Object,
-      default: () => ({}),
     },
     setInputValue: {
       type: Function,
@@ -59,34 +62,35 @@ export const propsComponent = {
       default: null,
     },
     margeParams: {
-      type: Object,
-      default: () => null,
+      type: Object as PropType<AxiosRequestConfig>,
+      default: () => ({}),
     },
-    debounce: {
+    debounceWait: {
        type: Number,
        default: 0
     },
+    debounceOptions: {
+        type: Object as PropType<DebounceSettings>,
+        default: () => ({})
+    },
     cssClasses: {
-      type: Object,
+      type: Object as PropType<CssClasses>,
       default: () => ({}),
     },
 }
 
 export const emitsComponent = ['update:modelValue', 'onSelected', 'focus', 'input'];
 
-export const useDaData = () => {
-    const { props, emit } = getCurrentInstance();
+export const useDaData = (): ComposableDaData => {
+    const { props, emit, pluginSettings } = getCurrentInstance();
     const suggestions = ref<DaDataSuggestionAnyType[]>([]);
     const showList = ref<boolean>(false);
-    const dadataDom = ref<HTMLInputElement | null>(null);
-
-    const globalOptions = inject<PluginOptions>(dadataNextOptions);
+    const dadataDom = ref<HTMLElement | null>(null);
 
     const token = computed(() => {
         if (props.token) return props.token;
-        if (globalOptions && globalOptions.token) return globalOptions.token;
-
-        return null;
+        if(pluginSettings?.token) return pluginSettings.token;
+        return null;    
     });
     const localValue = computed({
         get(){
@@ -116,7 +120,7 @@ export const useDaData = () => {
                     'content-type': 'application/json',
                     accept: 'application/json',
                 },
-                data: { ...props.params, query: localValue.value },
+                data: { query: localValue.value },
             }, props.mergeParams);
         }
 
@@ -177,7 +181,7 @@ export const useDaData = () => {
     };
    
 
-    const search = debounce((success = (data: any) => data, error = () => ({})): void => {
+    const search = _debounce((success = (data: any) => data, error = () => ({})): void => {
         if(!params.value){
             error();
             throw 'vue-dadata-3: Не указаны параметры запроса';
@@ -195,7 +199,7 @@ export const useDaData = () => {
             }
         });
 
-    }, props.debounce);
+    }, props.debounceWait, { ...DEBOUNCE_DEFAULT_SETTINGS, ...props.debounceOptions });
 
     const onSelected = (data: any): void => {
         localValue.value = data.value;
@@ -218,6 +222,7 @@ export const useDaData = () => {
     };
     
     const onInput = (event: Event): void => {
+        showList.value = true;
         const val = (event.target as HTMLInputElement).value;
 
         if (val) {

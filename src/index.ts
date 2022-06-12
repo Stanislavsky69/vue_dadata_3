@@ -1,15 +1,15 @@
-import DaData from './components/DaData.vue';
 import { PluginOptions } from "./types";
-import { App } from 'vue';
-import { dadataNextOptions } from './constants';
+import { App, Plugin } from 'vue';
+import { default as DaDataNext } from './components/DaData.vue';
 
-export default {
+import './assets/styles.scss';
+
+const plugin: Plugin = {
   install(app: App, options: PluginOptions) {
-    app.provide(dadataNextOptions, options);
-    app.component((options && options.tag) || 'da-data-next', DaData);
+    app.config.globalProperties.$daDataNext = options;
+    app.component((options && options.tag) || 'da-data-next', DaDataNext);
   },
-};
-
-export * from './types';
-export * from './components/useDaData';
-export const DaDataNext = DaData;
+}
+export { useDaData } from './components/useDaData';
+export { plugin as DaDataNextPlugin };
+export default plugin;

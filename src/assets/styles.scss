@@ -1,0 +1,54 @@
+$dadata_v_3_base_font_size: 16px!default;
+$dadata_v_3_input_width: 280px!default;
+$dadata_v_3_input_height: 40px!default;
+$dadata_v_3_borders_color: #797979!default;
+$dadata_v_3_list_bg_color: #fff!default;
+$dadata_v_3_list_font_size: 14px!default;
+$dadata_v_3_row_hover: #a8a8a8!default;
+
+
+.dadata{
+  & > * {
+    box-sizing: border-box;
+  }
+  position: relative;
+  max-width: $dadata_v_3_input_width;
+  font-size: $dadata_v_3_base_font_size;
+  &__input{
+    width: 100%;
+    height: $dadata_v_3_input_height;
+    font-size: inherit;
+    border: 1px solid $dadata_v_3_borders_color;
+    padding-left: 10px;
+    outline: none;
+  }
+  &__list{
+    position: absolute;
+    top: 100%;
+    z-index: 200;
+    list-style: none;
+    background: $dadata_v_3_list_bg_color;
+    border-left: 1px solid $dadata_v_3_borders_color;
+    border-right: 1px solid $dadata_v_3_borders_color;
+    border-bottom: 1px solid $dadata_v_3_borders_color;
+    margin: 0px;
+    width: 100%;
+    padding: 0px;
+    font-size: $dadata_v_3_list_font_size;
+    &_empty{
+      border-bottom: 0px;
+    }
+    &__row{
+      cursor: pointer;
+      padding: 0px 0px 0px 10px;
+      line-height: 1.5;
+      margin: 10px 0px;
+      .highlights{
+        font-weight: bold;
+      }
+      &:hover{
+        background: $dadata_v_3_row_hover;
+      }
+    }
+  }
+}

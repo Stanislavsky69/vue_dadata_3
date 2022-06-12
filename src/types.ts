@@ -1,9 +1,13 @@
+import { DebounceSettings } from "lodash-es";
+import { Ref, WritableComputedRef, ComputedRef} from 'vue';
+
+
+
 export type DaDataResult<T> = {
   value: string,
   unrestricted_value: string,
   data: T
 }
-
 
 export type DaDataAddressMetro = {
   name: string;
@@ -197,7 +201,7 @@ export type DaDataSuggestions = {
 }
 
 
-export type PluginOptions = {
+export interface PluginOptions {
   tag?: string,
   token: string
 }
@@ -214,17 +218,37 @@ export interface IPropsComponentContext {
   modelValue: string,
   token: string,
   type: string,
-  params: any,
   setInputValue?: (item: DaDataSuggestionAnyType) => string,
   apiUrl: string,
   inputName: string,
   placeholder: string,
   mergeParams: Record<string, any>,
-  debounce: number,
+  debounceWait: number,
+  debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
 }
 
 export type CurrentInstance = {
   props: IPropsComponentContext,
-  emit: (event: string, params: any) => void
+  emit: (event: string, params: any) => void,
+  pluginSettings: PluginOptions | undefined
+}
+
+export type ComposableDaData = {
+  search: () => void,
+  onInput: (event: Event) => void,
+  onFocus: (event: Event) => void,
+  showList: Ref<boolean>,
+  localValue: WritableComputedRef<string>,
+  prepareResults: (data: any, key: string) => string,
+  computedCssClasses: ComputedRef<CssClasses>,
+  onSelected: (data: any) => void,
+  dadataDom: Ref<HTMLElement | null>,
+  suggestions: Ref<DaDataSuggestionAnyType[]>
+}
+
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    $daDataNext: PluginOptions
+  }
 }
