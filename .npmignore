@@ -22,3 +22,7 @@ babel.config.js
 jest.config.js
 .eslintrc.js
 .browserslistrc
+index.html
+tsconfig.json
+tsconfig.node.json
+yarn.lock

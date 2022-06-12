@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "es2019",
+    "useDefineForClassFields": false,
+    "module": "esnext",
+    "declaration": true,
+    "moduleResolution": "node",
+    "allowJs": false,
+    "strict": true,
+    "noUnusedLocals": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "jsx": "preserve",
+    "rootDir": ".",
+    "lib": ["esnext", "dom"],
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

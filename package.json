@@ -1,9 +1,23 @@
 {
   "name": "vue-dadata-3",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
-  "main": "dist/vue-dadata-3.umd.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    },
+    "./dist/index.css": "./dist/index.css",
+    "./dist/styles.scss": "./dist/styles.scss"
+  },
+  "types": "./dist/index.d.ts",
   "keywords": [
     "vue3",
     "vuejs",
@@ -11,6 +25,7 @@
     "composition_api",
     "vue",
     "vuex",
+    "vite",
     "vue-plugin"
   ],
   "author": {
@@ -26,32 +41,44 @@
   },
   "license": "MIT",
   "scripts": {
-    "serve": "vue-cli-service serve server/dev/main.js",
-    "preprod": "npm run build && vue-cli-service serve server/prod/main.js",
-    "build": "vue-cli-service build --target lib --modern src/index.js",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "postinstall": "husky install",
+    "dev": "vite",
+    "lint": "eslint --ext .ts,vue --ignore-path .gitignore .",
+    "build": "vue-tsc --noEmit && vite build && node ./scripts/replaceScssFiles.js",
+    "test:run": "vitest --run",
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "axios": "^0.24.0",
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "axios": "^0.27.2",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.2.25"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-airbnb": "^5.0.2",
-    "@vue/test-utils": "^2.0.0-0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-vue": "^7.0.0",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3",
-    "vue-jest": "^5.0.0-0"
+    "@babel/types": "^7.18.2",
+    "@types/debounce": "^1.2.1",
+    "@types/eslint": "^8.4.2",
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "^17.0.36",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "@vue/compiler-dom": "^3.2.36",
+    "@vue/eslint-config-standard": "^7.0.0",
+    "@vue/eslint-config-typescript": "^10.0.0",
+    "@vue/test-utils": "^2.0.0-rc.18",
+    "axios-mock-adapter": "^1.21.1",
+    "eslint": "^8.17.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^9.1.0",
+    "husky": "^8.0.1",
+    "jest": "^28.1.0",
+    "jsdom": "^19.0.0",
+    "sass": "^1.52.3",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.7",
+    "vite-plugin-dts": "^1.2.0",
+    "vite-plugin-eslint": "^1.6.1",
+    "vitest": "^0.13.0",
+    "vue-tsc": "^0.35.0"
   }
 }

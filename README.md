@@ -2,16 +2,20 @@
 
 Компонент для работы с сервисом [dadata](https://dadata.ru/)
 
+## Обновление 2.0
+
+
 ### Запуск
 
 ```
 npm install vue-dadata-3
+
 ```
 
 ```
 yarn add vue-dadata-3
-```
 
+```
 
 ```
 <template>
@@ -20,7 +24,7 @@ yarn add vue-dadata-3
    </div>
 
 </template>
-<script setup>
+<script setup lang="ts">
 
 import { ref } from 'vue';
 import { DaDataNext } from 'vue-dadata-3'
@@ -41,55 +45,98 @@ createApp(App).use(DaDataNext, {
 }).mount('#app');
 
 ```
+Можно импортировать composable и использовать в своем компоненте:
+
+```
+import { useDaData } from 'vue-dadata-3';
+
+```
+
+
 Установив токен глобально далее его можно будет переопределить через пропсы.
 
 ### Стилизация
 
-Нужно подключить файлы стилей так:
+Стилизация согласно новому [стандарту](https://sass-lang.com/documentation/at-rules/use#configuration) sass.
+
+Доступные переменные:
+
 ```
-@import "~vue-dadata-3/src/assets/variabless";
-@import "~vue-dadata-3/src/assets/styles";
+$dadata_v_3_base_font_size: 16px!default;
+$dadata_v_3_input_width: 280px!default;
+$dadata_v_3_input_height: 40px!default;
+$dadata_v_3_borders_color: #797979!default;
+$dadata_v_3_list_bg_color: #fff!default;
+$dadata_v_3_list_font_size: 14px!default;
+$dadata_v_3_row_hover: #a8a8a8!default;
+
+```
+Переопределяем переменные следующим образом:
+
+```
+@import "~vue-dadata-3/styles.scss" with (
+  $dadata_v_3_base_font_size: 14px;
+);
+
 ```
 
 
-### Состояния
+### Входные параметры
 
 ```
 {
-  token: {
-    type: String,
-    default: null
-  },
-  type: {
-    type: String,
-    default: 'address',
-  },
-  params: {
-    type: Object,
-    default: () => {},
-  },
-  setInputValue: {
-    type: Function,
-  },
-  apiUrl: {
-    type: String,
-    default: null,
-  },
-  inputName: {
-    type: String,
-    default: 'address',
-  },
-  placeholder: {
-    type: String,
-    default: null,
-  }
+    modelValue: {
+        type: String,
+        required: true
+    },
+    token: {
+      type: String,
+      default: null,
+    },
+    type: {
+      type: String,
+      default: 'address',
+    },
+    setInputValue: {
+      type: Function,
+    },
+    apiUrl: {
+      type: String,
+      default: null,
+    },
+    inputName: {
+      type: String,
+      default: 'address',
+    },
+    placeholder: {
+      type: String,
+      default: null,
+    },
+    margeParams: {
+      type: Object as PropType<AxiosRequestConfig>,
+      default: () => ({}),
+    },
+    debounceWait: {
+       type: Number,
+       default: 0
+    },
+    debounceOptions: {
+        type: Object as PropType<DebounceSettings>,
+        default: () => ({})
+    },
+    cssClasses: {
+      type: Object as PropType<CssClasses>,
+      default: () => ({}),
+    },
+}
+
 ```
 
 **token** - токен сервиса
 
 **type** - тип [подсказок](https://dadata.ru/suggestions/usage/) по умолчанию address
 
-**params** - [параметры](https://confluence.hflabs.ru/display/SGTDOC/HTTP+API) запроса.
+**mergeParams** - [параметры](https://confluence.hflabs.ru/display/SGTDOC/HTTP+API) запроса.
 
 **setInputValue** - коллбэк-функция, которая обрабатывает значение после выбора из подсказок. Принимает параметр объекта suggestion.
 
@@ -99,6 +146,22 @@ createApp(App).use(DaDataNext, {
 
 **placeholder** - значение атрибута placeholder у input
 
+**debounceWait** - время задержки перед отправкой запроса
+
+**debounceOptions** - опции плагина [debounce](https://lodash.com/docs/4.17.15#debounce) пакета lodash
+
+**cssClasses** - переопределение дефолтных css классов
+
+```
+type CssClasses = {
+  root: string,
+  input: string,
+  listEmpty: string,
+  row: string,
+  list: string
+}
+
+```
 
 ### События
 
@@ -109,13 +172,16 @@ createApp(App).use(DaDataNext, {
 **list-item** - слот для отдельной подсказки. Слот принимает два параметра - объект подсказки и функция для обработки подсказки
 
 ```
- <da-data>
+ <da-data-next>
   <template #list-item="{ prop, prepareValue}">
     <span v-html="prepareValue(prop, 'value')"></span>
   </template>
- </da-data>
+ </da-data-next>
 ```
 
 Функция **prepareValue** нужна для сохранения подсветки соответствий запроса. 
 Эта функция опциональна. Если все-таки решили её использовать, то нужно выводить, как в примере выше через директиву v-html.
+
+
+
 
