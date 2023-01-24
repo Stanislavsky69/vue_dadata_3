@@ -115,6 +115,10 @@ import "vue-dadata-3/index.css";
       type: String,
       default: 'address',
     },
+    inputId: {
+      type: String,
+      default: null
+    },
     placeholder: {
       type: String,
       default: null,
@@ -150,6 +154,8 @@ import "vue-dadata-3/index.css";
 **apiUrl** - кастомный урл для отправки запросов, заменяет дефолтный.
 
 **inputName** - значение атрибута name у input
+
+**inputId** - значение атрибута id у input
 
 **placeholder** - значение атрибута placeholder у input
 
