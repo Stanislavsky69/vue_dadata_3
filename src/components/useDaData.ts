@@ -53,6 +53,10 @@ export const propsComponent = {
       type: String,
       default: null,
     },
+    inputId: {
+        type: String,
+        default: null
+    },
     inputName: {
       type: String,
       default: 'address',
@@ -77,6 +81,7 @@ export const propsComponent = {
       type: Object as PropType<CssClasses>,
       default: () => ({}),
     },
+    
 }
 
 export const emitsComponent = ['update:modelValue', 'onSelected', 'focus', 'input'];

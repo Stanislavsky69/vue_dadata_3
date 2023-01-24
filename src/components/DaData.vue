@@ -7,6 +7,7 @@
       v-model="localValue"
       type="text"
       :name="inputName"
+      :id="inputId"
       :class="computedCssClasses.input"
       :placeholder="placeholder"
       @input="onInput"
