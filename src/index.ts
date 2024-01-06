@@ -10,7 +10,7 @@ const plugin: Plugin = {
     app.component((options && options.tag) || 'da-data-next', DaDataComponent);
   },
 }
-export { useDaData } from './components/useDaData';
+export { useDaData, emitsComponent, propsComponent } from './components/useDaData';
 export { plugin as DaDataNextPlugin };
 export const DaDataNext = DaDataComponent;
 export default plugin;
