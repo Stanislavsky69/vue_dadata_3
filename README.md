@@ -123,7 +123,7 @@ import "vue-dadata-3/index.css";
       type: String,
       default: null,
     },
-    margeParams: {
+    mergeParams: {
       type: Object as PropType<AxiosRequestConfig>,
       default: () => ({}),
     },
