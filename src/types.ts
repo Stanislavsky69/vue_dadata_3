@@ -221,6 +221,7 @@ export interface IPropsComponentContext {
   setInputValue?: (item: DaDataSuggestionAnyType) => string,
   apiUrl: string,
   inputName: string,
+  inputId: string,
   placeholder: string,
   mergeParams: Record<string, any>,
   debounceWait: number,

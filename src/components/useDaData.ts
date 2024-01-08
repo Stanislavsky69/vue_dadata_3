@@ -1,21 +1,23 @@
 import {
-    computed,
-    ref,
-    watch,
-    toRaw,
-    onMounted,
-    PropType,
-  } from 'vue';
+  computed,
+  ref,
+  watch,
+  toRaw,
+  onMounted,
+  PropType,
+  ComponentPropsOptions,
+} from 'vue';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { merge, debounce as _debounce } from 'lodash-es';
 import type { DebounceSettings } from "lodash-es";
 
 import { getCurrentInstance } from '../utils/getCurrentInstance';
-import { 
-    CssClasses,
-    DaDataSuggestionAnyType,
-    DaDataSuggestions,
-    ComposableDaData
+import {
+  CssClasses,
+  DaDataSuggestionAnyType,
+  DaDataSuggestions,
+  ComposableDaData,
+  IPropsComponentContext,
 } from '../types';
 
 
@@ -33,7 +35,7 @@ export const CSS_CLASSES_DEFAULT: CssClasses = {
     row: 'dadata__list__row'
 }
 
-export const propsComponent = {
+export const propsComponent: ComponentPropsOptions<IPropsComponentContext> = {
     modelValue: {
         type: String,
         required: true
@@ -47,7 +49,7 @@ export const propsComponent = {
       default: 'address',
     },
     setInputValue: {
-      type: Function,
+      type: Function as PropType<(item: DaDataSuggestionAnyType) => string>,
     },
     apiUrl: {
       type: String,
