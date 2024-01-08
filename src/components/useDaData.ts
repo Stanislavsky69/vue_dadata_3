@@ -65,7 +65,7 @@ export const propsComponent = {
       type: String,
       default: null,
     },
-    margeParams: {
+    mergeParams: {
       type: Object as PropType<AxiosRequestConfig>,
       default: () => ({}),
     },
