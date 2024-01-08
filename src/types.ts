@@ -191,13 +191,13 @@ export type DaDataFio = {
 }
 
 export type DaDataSuggestionAnyType =
-   DaDataResult<DaDataAddress>  | 
-   DaDataResult<DaDataBank>     |  
+   DaDataResult<DaDataAddress>  |
+   DaDataResult<DaDataBank>     |
    DaDataResult<DaDataParty>    |
    DaDataResult<DaDataFio>;
 
 export type DaDataSuggestions = {
-  suggestions: DaDataSuggestionAnyType[] 
+  suggestions: DaDataSuggestionAnyType[]
 }
 
 
@@ -227,6 +227,8 @@ export interface IPropsComponentContext {
   debounceWait: number,
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
+  fromBound: Bounds,
+  toBound: Bounds,
 }
 
 export type CurrentInstance = {
@@ -247,6 +249,8 @@ export type ComposableDaData = {
   dadataDom: Ref<HTMLElement | null>,
   suggestions: Ref<DaDataSuggestionAnyType[]>
 }
+
+export type Bounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'house' | 'flat';
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
