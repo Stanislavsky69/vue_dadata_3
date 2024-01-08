@@ -5,7 +5,6 @@ import {
   toRaw,
   onMounted,
   PropType,
-  ComponentPropsOptions,
 } from 'vue';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { merge, debounce as _debounce } from 'lodash-es';
@@ -17,7 +16,7 @@ import {
   DaDataSuggestionAnyType,
   DaDataSuggestions,
   ComposableDaData,
-  IPropsComponentContext,
+  Bounds,
 } from '../types';
 
 
@@ -35,7 +34,7 @@ export const CSS_CLASSES_DEFAULT: CssClasses = {
     row: 'dadata__list__row'
 }
 
-export const propsComponent: ComponentPropsOptions<IPropsComponentContext> = {
+export const propsComponent = {
     modelValue: {
         type: String,
         required: true
