@@ -16,7 +16,7 @@ import {
   DaDataSuggestionAnyType,
   DaDataSuggestions,
   ComposableDaData,
-  Bounds,
+  LocationOptions,
 } from '../types';
 
 
@@ -82,8 +82,10 @@ export const propsComponent = {
       type: Object as PropType<CssClasses>,
       default: () => ({}),
     },
-    fromBound: String as PropType<Bounds>,
-    toBound: String as PropType<Bounds>,
+    restrictions: {
+      type: Object as PropType<LocationOptions>,
+      default: () => ({}),
+    },
 }
 
 export const emitsComponent = ['update:modelValue', 'onSelected', 'focus', 'input'];
@@ -119,6 +121,8 @@ export const useDaData = (): ComposableDaData => {
     });
     const params = computed<AxiosRequestConfig>((): AxiosRequestConfig => {
         if (token.value) {
+            const {from_bound, to_bound, ...options} = props.restrictions;
+
             return merge({
                 method: 'POST',
                 url: url.value,
@@ -129,8 +133,9 @@ export const useDaData = (): ComposableDaData => {
                 },
                 data: {
                     query: localValue.value,
-                    ...(props.fromBound ? {from_bound: {value: props.fromBound}} : {}),
-                    ...(props.toBound ? {to_bound: {value: props.toBound}} : {}),
+                    ...options,
+                    ...(from_bound ? {from_bound: {value: from_bound}} : {}),
+                    ...(to_bound ? {to_bound: {value: to_bound}} : {}),
                 },
             }, props.mergeParams);
         }

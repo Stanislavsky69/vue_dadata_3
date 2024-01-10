@@ -214,6 +214,48 @@ export type CssClasses = {
   list: string
 }
 
+export type Divisions = 'administrative' | 'municipal';
+
+export interface LocationRestriction {
+  country_iso_code?: string;
+  region_iso_code?: string;
+
+  kladr_id?: string|number;
+  fias_id?: string;
+
+  country?: string;
+  region?: string;
+  area?: string;
+  city?: string;
+  settlement?: string;
+  street?: string;
+
+  region_type_full?: string;
+  area_type_full?: string;
+  city_type_full?: string;
+  settlement_type_full?: string;
+  street_type_full?: string;
+}
+
+interface LocationGeoRestriction {
+  lat: number;
+  lon: number;
+  radius_meters?: number;
+}
+
+interface LocationBoostRestriction {
+  kladr_id: string|number,
+}
+
+export interface LocationOptions {
+  division?: Divisions,
+  locations?: Array<LocationRestriction>,
+  locations_geo?: Array<LocationGeoRestriction>,
+  locations_boost?: Array<LocationBoostRestriction>,
+  from_bound: DaDataAddressBounds,
+  to_bound: DaDataAddressBounds,
+}
+
 export interface IPropsComponentContext {
   modelValue: string,
   token: string,
@@ -227,8 +269,7 @@ export interface IPropsComponentContext {
   debounceWait: number,
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
-  fromBound: Bounds,
-  toBound: Bounds,
+  restrictions: LocationOptions,
 }
 
 export type CurrentInstance = {
@@ -249,8 +290,6 @@ export type ComposableDaData = {
   dadataDom: Ref<HTMLElement | null>,
   suggestions: Ref<DaDataSuggestionAnyType[]>
 }
-
-export type Bounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'house' | 'flat';
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
