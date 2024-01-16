@@ -214,46 +214,46 @@ export type CssClasses = {
   list: string
 }
 
-export type Divisions = 'administrative' | 'municipal';
+namespace DaData {
+  export type Divisions = 'administrative' | 'municipal';
 
-export interface LocationRestriction {
-  country_iso_code?: string;
-  region_iso_code?: string;
+  export interface LocationRestriction {
+    country_iso_code?: string;
+    region_iso_code?: string;
 
-  kladr_id?: string|number;
-  fias_id?: string;
+    kladr_id?: string|number;
+    fias_id?: string;
 
-  country?: string;
-  region?: string;
-  area?: string;
-  city?: string;
-  settlement?: string;
-  street?: string;
+    country?: string;
+    region?: string;
+    area?: string;
+    city?: string;
+    settlement?: string;
+    street?: string;
 
-  region_type_full?: string;
-  area_type_full?: string;
-  city_type_full?: string;
-  settlement_type_full?: string;
-  street_type_full?: string;
-}
+    region_type_full?: string;
+    area_type_full?: string;
+    city_type_full?: string;
+    settlement_type_full?: string;
+    street_type_full?: string;
+  }
 
-interface LocationGeoRestriction {
-  lat: number;
-  lon: number;
-  radius_meters?: number;
-}
+  export interface LocationGeoRestriction {
+    lat: number;
+    lon: number;
+    radius_meters?: number;
+  }
 
-interface LocationBoostRestriction {
-  kladr_id: string|number,
+  export interface LocationBoostRestriction {
+    kladr_id: string|number,
+  }
 }
 
 export interface LocationOptions {
-  division?: Divisions,
-  locations?: Array<LocationRestriction>,
-  locations_geo?: Array<LocationGeoRestriction>,
-  locations_boost?: Array<LocationBoostRestriction>,
-  from_bound: DaDataAddressBounds,
-  to_bound: DaDataAddressBounds,
+  division?: DaData.Divisions,
+  locations?: Array<DaData.LocationRestriction>,
+  locations_geo?: Array<DaData.LocationGeoRestriction>,
+  locations_boost?: Array<DaData.LocationBoostRestriction>,
 }
 
 export interface IPropsComponentContext {
@@ -270,6 +270,8 @@ export interface IPropsComponentContext {
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
   restrictions: LocationOptions,
+  fromBound: DaDataAddressBounds,
+  toBound: DaDataAddressBounds,
 }
 
 export type CurrentInstance = {
