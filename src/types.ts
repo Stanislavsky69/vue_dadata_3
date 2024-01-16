@@ -99,7 +99,7 @@ export type DaDataAddress = {
   metro: DaDataAddressMetro[] | null;
 }
 
-export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses';
+export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses' | 'flat';
 
 export type DaDataPartyType = 'LEGAL' | 'INDIVIDUAL';
 
