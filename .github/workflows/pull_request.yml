@@ -10,4 +10,5 @@ jobs:
               with:
                 node-version: '20.x'
             - run: yarn --frozen-lockfile
+            - run: yarn vue-tsc --noEmit
             - run: yarn run test:run
