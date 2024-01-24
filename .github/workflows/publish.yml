@@ -1,7 +1,5 @@
 name: Publish Package
-on:
-  release:
-    types: [published]
+on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
