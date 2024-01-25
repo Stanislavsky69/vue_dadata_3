@@ -1,5 +1,5 @@
-import { DebounceSettings } from "lodash-es";
-import { Ref, WritableComputedRef, ComputedRef} from 'vue';
+import {DebounceSettings} from "lodash-es";
+import {Ref, WritableComputedRef, ComputedRef} from 'vue';
 
 
 
@@ -214,46 +214,45 @@ export type CssClasses = {
   list: string
 }
 
-namespace DaData {
-  export type Divisions = 'administrative' | 'municipal';
+export type DaDataDivisions = 'administrative' | 'municipal';
 
-  export interface LocationRestriction {
-    country_iso_code?: string;
-    region_iso_code?: string;
+export interface DaDataLocationRestriction {
+  country_iso_code?: string;
+  region_iso_code?: string;
 
-    kladr_id?: string|number;
-    fias_id?: string;
+  kladr_id?: string | number;
+  fias_id?: string;
 
-    country?: string;
-    region?: string;
-    area?: string;
-    city?: string;
-    settlement?: string;
-    street?: string;
+  country?: string;
+  region?: string;
+  area?: string;
+  city?: string;
+  settlement?: string;
+  street?: string;
 
-    region_type_full?: string;
-    area_type_full?: string;
-    city_type_full?: string;
-    settlement_type_full?: string;
-    street_type_full?: string;
-  }
+  region_type_full?: string;
+  area_type_full?: string;
+  city_type_full?: string;
+  settlement_type_full?: string;
+  street_type_full?: string;
+}
 
-  export interface LocationGeoRestriction {
-    lat: number;
-    lon: number;
-    radius_meters?: number;
-  }
+export interface DaDataLocationGeoRestriction {
+  lat: number;
+  lon: number;
+  radius_meters?: number;
+}
 
-  export interface LocationBoostRestriction {
-    kladr_id: string|number,
-  }
+export interface DaDataLocationBoostRestriction {
+  kladr_id: string | number,
+}
 }
 
 export interface LocationOptions {
-  division?: DaData.Divisions,
-  locations?: Array<DaData.LocationRestriction>,
-  locations_geo?: Array<DaData.LocationGeoRestriction>,
-  locations_boost?: Array<DaData.LocationBoostRestriction>,
+  division?: DaDataDivisions,
+  locations?: Array<DaDataLocationRestriction>,
+  locations_geo?: Array<DaDataLocationGeoRestriction>,
+  locations_boost?: Array<DaDataLocationBoostRestriction>,
 }
 
 export interface IPropsComponentContext {
