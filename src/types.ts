@@ -271,7 +271,7 @@ export interface IPropsComponentContext {
   debounceWait: number,
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
-  restrictions: LocationOptions,
+  locations: LocationOptions,
   fromBound: DaDataBound,
   toBound: DaDataBound,
 }

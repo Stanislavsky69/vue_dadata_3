@@ -83,7 +83,7 @@ export const propsComponent = {
       type: Object as PropType<CssClasses>,
       default: () => ({}),
     },
-    restrictions: {
+    locations: {
       type: Object as PropType<LocationOptions>,
       default: () => ({}),
     },
@@ -140,7 +140,7 @@ export const useDaData = (): ComposableDaData => {
                 },
                 data: {
                     query: localValue.value,
-                    ...props.restrictions,
+                    ...props.locations,
                     ...props.fromBound,
                     ...props.toBound,
                 },
