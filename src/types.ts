@@ -246,6 +246,9 @@ export interface DaDataLocationGeoRestriction {
 export interface DaDataLocationBoostRestriction {
   kladr_id: string | number,
 }
+
+export interface DaDataBound {
+  value: DaDataAddressBounds;
 }
 
 export interface LocationOptions {
@@ -269,8 +272,8 @@ export interface IPropsComponentContext {
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
   restrictions: LocationOptions,
-  fromBound: DaDataAddressBounds,
-  toBound: DaDataAddressBounds,
+  fromBound: DaDataBound,
+  toBound: DaDataBound,
 }
 
 export type CurrentInstance = {

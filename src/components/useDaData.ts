@@ -13,11 +13,11 @@ import type { DebounceSettings } from "lodash-es";
 import { getCurrentInstance } from '../utils/getCurrentInstance';
 import {
   CssClasses,
+  DaDataBound,
   DaDataSuggestionAnyType,
   DaDataSuggestions,
   ComposableDaData,
   LocationOptions,
-  DaDataAddressBounds,
 } from '../types';
 
 
@@ -87,8 +87,14 @@ export const propsComponent = {
       type: Object as PropType<LocationOptions>,
       default: () => ({}),
     },
-    fromBound: String as PropType<DaDataAddressBounds>,
-    toBound: String as PropType<DaDataAddressBounds>,
+    fromBound: {
+      type: Object as PropType<DaDataBound>,
+      default: () => ({}),
+    },
+    toBound: {
+      type: Object as PropType<DaDataBound>,
+      default: () => ({}),
+    },
 }
 
 export const emitsComponent = ['update:modelValue', 'onSelected', 'focus', 'input'];
@@ -135,8 +141,8 @@ export const useDaData = (): ComposableDaData => {
                 data: {
                     query: localValue.value,
                     ...props.restrictions,
-                    ...(props.fromBound ? {from_bound: {value: props.fromBound}} : {}),
-                    ...(props.toBound ? {to_bound: {value: props.toBound}} : {}),
+                    ...props.fromBound,
+                    ...props.toBound,
                 },
             }, props.mergeParams);
         }
