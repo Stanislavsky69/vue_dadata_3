@@ -1,21 +1,23 @@
 import {
-    computed,
-    ref,
-    watch,
-    toRaw,
-    onMounted,
-    PropType,
-  } from 'vue';
+  computed,
+  ref,
+  watch,
+  toRaw,
+  onMounted,
+  PropType,
+} from 'vue';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { merge, debounce as _debounce } from 'lodash-es';
 import type { DebounceSettings } from "lodash-es";
 
 import { getCurrentInstance } from '../utils/getCurrentInstance';
-import { 
-    CssClasses,
-    DaDataSuggestionAnyType,
-    DaDataSuggestions,
-    ComposableDaData
+import {
+  CssClasses,
+  DaDataBound,
+  DaDataSuggestionAnyType,
+  DaDataSuggestions,
+  ComposableDaData,
+  LocationOptions,
 } from '../types';
 
 
@@ -47,7 +49,7 @@ export const propsComponent = {
       default: 'address',
     },
     setInputValue: {
-      type: Function,
+      type: Function as PropType<(item: DaDataSuggestionAnyType) => string>,
     },
     apiUrl: {
       type: String,
@@ -81,7 +83,18 @@ export const propsComponent = {
       type: Object as PropType<CssClasses>,
       default: () => ({}),
     },
-    
+    locations: {
+      type: Object as PropType<LocationOptions>,
+      default: () => ({}),
+    },
+    fromBound: {
+      type: Object as PropType<DaDataBound>,
+      default: () => ({}),
+    },
+    toBound: {
+      type: Object as PropType<DaDataBound>,
+      default: () => ({}),
+    },
 }
 
 export const emitsComponent = ['update:modelValue', 'onSelected', 'focus', 'input'];
@@ -95,7 +108,7 @@ export const useDaData = (): ComposableDaData => {
     const token = computed(() => {
         if (props.token) return props.token;
         if(pluginSettings?.token) return pluginSettings.token;
-        return null;    
+        return null;
     });
     const localValue = computed({
         get(){
@@ -112,7 +125,7 @@ export const useDaData = (): ComposableDaData => {
         if (props.apiUrl) {
             return props.apiUrl;
         }
-        
+
         return `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${props.type}`;
     });
     const params = computed<AxiosRequestConfig>((): AxiosRequestConfig => {
@@ -125,7 +138,12 @@ export const useDaData = (): ComposableDaData => {
                     'content-type': 'application/json',
                     accept: 'application/json',
                 },
-                data: { query: localValue.value },
+                data: {
+                    query: localValue.value,
+                    ...props.locations,
+                    ...props.fromBound,
+                    ...props.toBound,
+                },
             }, props.mergeParams);
         }
 
@@ -184,7 +202,7 @@ export const useDaData = (): ComposableDaData => {
 
         return copyValue;
     };
-   
+
 
     const search = _debounce((success = (data: any) => data, error = () => ({})): void => {
         if(!params.value){
@@ -208,7 +226,7 @@ export const useDaData = (): ComposableDaData => {
 
     const onSelected = (data: any): void => {
         localValue.value = data.value;
-        
+
         if ('setInputValue' in props && typeof props.setInputValue === 'function') {
             localValue.value = props.setInputValue(toRaw(data));
         }
@@ -225,7 +243,7 @@ export const useDaData = (): ComposableDaData => {
         }
         emit('focus', event);
     };
-    
+
     const onInput = (event: Event): void => {
         showList.value = true;
         const val = (event.target as HTMLInputElement).value;

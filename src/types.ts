@@ -1,5 +1,5 @@
-import { DebounceSettings } from "lodash-es";
-import { Ref, WritableComputedRef, ComputedRef} from 'vue';
+import {DebounceSettings} from "lodash-es";
+import {Ref, WritableComputedRef, ComputedRef} from 'vue';
 
 
 
@@ -99,7 +99,7 @@ export type DaDataAddress = {
   metro: DaDataAddressMetro[] | null;
 }
 
-export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses';
+export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses' | 'flat';
 
 export type DaDataPartyType = 'LEGAL' | 'INDIVIDUAL';
 
@@ -191,13 +191,13 @@ export type DaDataFio = {
 }
 
 export type DaDataSuggestionAnyType =
-   DaDataResult<DaDataAddress>  | 
-   DaDataResult<DaDataBank>     |  
+   DaDataResult<DaDataAddress>  |
+   DaDataResult<DaDataBank>     |
    DaDataResult<DaDataParty>    |
    DaDataResult<DaDataFio>;
 
 export type DaDataSuggestions = {
-  suggestions: DaDataSuggestionAnyType[] 
+  suggestions: DaDataSuggestionAnyType[]
 }
 
 
@@ -214,6 +214,50 @@ export type CssClasses = {
   list: string
 }
 
+export type DaDataDivisions = 'administrative' | 'municipal';
+
+export interface DaDataLocationRestriction {
+  country_iso_code?: string;
+  region_iso_code?: string;
+
+  kladr_id?: string | number;
+  fias_id?: string;
+
+  country?: string;
+  region?: string;
+  area?: string;
+  city?: string;
+  settlement?: string;
+  street?: string;
+
+  region_type_full?: string;
+  area_type_full?: string;
+  city_type_full?: string;
+  settlement_type_full?: string;
+  street_type_full?: string;
+}
+
+export interface DaDataLocationGeoRestriction {
+  lat: number;
+  lon: number;
+  radius_meters?: number;
+}
+
+export interface DaDataLocationBoostRestriction {
+  kladr_id: string | number,
+}
+
+export interface DaDataBound {
+  value: DaDataAddressBounds;
+}
+
+export interface LocationOptions {
+  division?: DaDataDivisions,
+  locations?: Array<DaDataLocationRestriction>,
+  locations_geo?: Array<DaDataLocationGeoRestriction>,
+  locations_boost?: Array<DaDataLocationBoostRestriction>,
+}
+
 export interface IPropsComponentContext {
   modelValue: string,
   token: string,
@@ -221,11 +265,15 @@ export interface IPropsComponentContext {
   setInputValue?: (item: DaDataSuggestionAnyType) => string,
   apiUrl: string,
   inputName: string,
+  inputId: string,
   placeholder: string,
   mergeParams: Record<string, any>,
   debounceWait: number,
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
+  locations: LocationOptions,
+  fromBound: DaDataBound,
+  toBound: DaDataBound,
 }
 
 export type CurrentInstance = {

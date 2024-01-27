@@ -139,42 +139,67 @@ import "vue-dadata-3/index.css";
       type: Object as PropType<CssClasses>,
       default: () => ({}),
     },
+    locations: {
+      type: Object as PropType<LocationOptions>,
+      default: () => ({}),
+    },
+    fromBound: {
+      type: Object as PropType<DaDataBound>,
+      default: () => ({}),
+    },
+    toBound: {
+      type: Object as PropType<DaDataBound>,
+      default: () => ({}),
+    },
 }
 
 ```
 
-**token** - токен сервиса
+- **token** - токен сервиса
 
-**type** - тип [подсказок](https://dadata.ru/suggestions/usage/) по умолчанию address
+- **type** - тип [подсказок](https://dadata.ru/suggestions/usage/) по умолчанию address
 
-**mergeParams** - [параметры](https://confluence.hflabs.ru/display/SGTDOC/HTTP+API) запроса.
+- **mergeParams** - [параметры](https://confluence.hflabs.ru/display/SGTDOC/HTTP+API) запроса.
 
-**setInputValue** - коллбэк-функция, которая обрабатывает значение после выбора из подсказок. Принимает параметр объекта suggestion.
+- **setInputValue** - коллбэк-функция, которая обрабатывает значение после выбора из подсказок. Принимает параметр объекта suggestion.
 
-**apiUrl** - кастомный урл для отправки запросов, заменяет дефолтный.
+- **apiUrl** - кастомный урл для отправки запросов, заменяет дефолтный.
 
-**inputName** - значение атрибута name у input
+- **inputName** - значение атрибута name у input
 
-**inputId** - значение атрибута id у input
+- **inputId** - значение атрибута id у input
 
-**placeholder** - значение атрибута placeholder у input
+- **placeholder** - значение атрибута placeholder у input
 
-**debounceWait** - время задержки перед отправкой запроса
+- **debounceWait** - время задержки перед отправкой запроса
 
-**debounceOptions** - опции плагина [debounce](https://lodash.com/docs/4.17.15#debounce) пакета lodash
+- **debounceOptions** - опции плагина [debounce](https://lodash.com/docs/4.17.15#debounce) пакета lodash
 
-**cssClasses** - переопределение дефолтных css классов
+- **cssClasses** - переопределение дефолтных css классов
+  ```
+  type CssClasses = {
+    root: string,
+    input: string,
+    listEmpty: string,
+    row: string,
+    list: string
+  }
+  ```
+- **locations** - настройка ограничений и приоритетов для местности по которой осуществляется поиск. 
+Передаётся объектом со следующими опциональными полями:
 
-```
-type CssClasses = {
-  root: string,
-  input: string,
-  listEmpty: string,
-  row: string,
-  list: string
-}
+  | Название        | Тип                           | Описание                                                                                                            |
+  |-----------------|-------------------------------|---------------------------------------------------------------------------------------------------------------------|
+  | division        | "municipal"\|"administrative" | [Административное либо муниципальное деление](https://confluence.hflabs.ru/pages/viewpage.action?pageId=1326056589) |
+  | locations       | array[object]                 | [Ограничение сектора поиска](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669108)                   |
+  | locations_geo   | array[object]                 | [Ограничение по радиусу окружности](https://confluence.hflabs.ru/pages/viewpage.action?pageId=990871806)            |
+  | locations_boost | array[object]                 | [Приоритет города при ранжировании](https://confluence.hflabs.ru/pages/viewpage.action?pageId=285343795)            |
 
-```
+- **fromBound** и **toBound** - [гранулярные подсказки](https://confluence.hflabs.ru/pages/viewpage.action?pageId=222888017). Передаётся в виде объекта с полем value, содержащий нужный тип. Например, следующий элемент будет искать исключительно по городам: 
+
+  ```vue
+  <DaDataNext :from-bound="{value: 'city'}" :to-bound="{value: 'city'}"/>
+  ```
 
 ### События
 
