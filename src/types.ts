@@ -280,8 +280,8 @@ export interface IPropsComponentContext {
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
   locations: LocationOptions,
-  fromBound: DaDataBound,
-  toBound: DaDataBound,
+  fromBound: DaDataAddressBounds,
+  toBound: DaDataAddressBounds,
 }
 
 export type CurrentInstance = {

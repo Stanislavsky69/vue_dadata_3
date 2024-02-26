@@ -195,10 +195,10 @@ import "vue-dadata-3/index.css";
   | locations_geo   | array[object]                 | [Ограничение по радиусу окружности](https://confluence.hflabs.ru/pages/viewpage.action?pageId=990871806)            |
   | locations_boost | array[object]                 | [Приоритет города при ранжировании](https://confluence.hflabs.ru/pages/viewpage.action?pageId=285343795)            |
 
-- **fromBound** и **toBound** - [гранулярные подсказки](https://confluence.hflabs.ru/pages/viewpage.action?pageId=222888017). Передаётся в виде объекта с полем value, содержащий нужный тип. Например, следующий элемент будет искать исключительно по городам: 
+- **fromBound** и **toBound** - [гранулярные подсказки](https://confluence.hflabs.ru/pages/viewpage.action?pageId=222888017). Передаётся в строки, содержащий нужный тип. Например, следующий элемент будет искать исключительно по городам: 
 
   ```vue
-  <DaDataNext :from-bound="{value: 'city'}" :to-bound="{value: 'city'}"/>
+  <DaDataNext from-bound="city" to-bound="city"/>
   ```
 
 ### События
@@ -219,7 +219,3 @@ import "vue-dadata-3/index.css";
 
 Функция **prepareValue** нужна для сохранения подсветки соответствий запроса. 
 Эта функция опциональна. Если все-таки решили её использовать, то нужно выводить, как в примере выше через директиву v-html.
-
-
-
-
