@@ -14,6 +14,7 @@ import { getCurrentInstance } from '../utils/getCurrentInstance';
 import {
   CssClasses,
   DaDataBound,
+  DaDataQueryData,
   DaDataSuggestionAnyType,
   DaDataSuggestions,
   ComposableDaData,
@@ -128,7 +129,7 @@ export const useDaData = (): ComposableDaData => {
 
         return `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${props.type}`;
     });
-    const params = computed<AxiosRequestConfig>((): AxiosRequestConfig => {
+    const params = computed<AxiosRequestConfig<DaDataQueryData>>((): AxiosRequestConfig<DaDataQueryData> => {
         if (token.value) {
             return merge({
                 method: 'POST',
