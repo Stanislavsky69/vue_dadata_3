@@ -13,7 +13,8 @@ import type { DebounceSettings } from "lodash-es";
 import { getCurrentInstance } from '../utils/getCurrentInstance';
 import {
   CssClasses,
-  DaDataBound,
+  DaDataAddressBounds,
+  DaDataQueryData,
   DaDataSuggestionAnyType,
   DaDataSuggestions,
   ComposableDaData,
@@ -88,11 +89,11 @@ export const propsComponent = {
       default: () => ({}),
     },
     fromBound: {
-      type: Object as PropType<DaDataBound>,
+      type: String as PropType<DaDataAddressBounds>,
       default: () => ({}),
     },
     toBound: {
-      type: Object as PropType<DaDataBound>,
+      type: String as PropType<DaDataAddressBounds>,
       default: () => ({}),
     },
 }
@@ -128,7 +129,7 @@ export const useDaData = (): ComposableDaData => {
 
         return `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${props.type}`;
     });
-    const params = computed<AxiosRequestConfig>((): AxiosRequestConfig => {
+    const params = computed<AxiosRequestConfig<DaDataQueryData>>((): AxiosRequestConfig<DaDataQueryData> => {
         if (token.value) {
             return merge({
                 method: 'POST',
@@ -138,17 +139,33 @@ export const useDaData = (): ComposableDaData => {
                     'content-type': 'application/json',
                     accept: 'application/json',
                 },
-                data: {
-                    query: localValue.value,
-                    ...props.locations,
-                    ...props.fromBound,
-                    ...props.toBound,
-                },
+                data: buildQueryData(),
             }, props.mergeParams);
         }
 
         return {};
     });
+
+    const buildQueryData = (): DaDataQueryData => {
+        const data: DaDataQueryData = {
+            query: localValue.value,
+            ...props.locations,
+        };
+
+        if (props.fromBound) {
+            data['from_bound'] = {
+                value: props.fromBound,
+            };
+        }
+
+        if (props.toBound) {
+            data['to_bound'] = {
+                value: props.toBound,
+            };
+        }
+
+        return data;
+    }
 
     const bindCloseClickOutside = () => {
         document.addEventListener('click', (event: Event) => {

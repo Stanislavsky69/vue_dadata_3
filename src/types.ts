@@ -200,6 +200,14 @@ export type DaDataSuggestions = {
   suggestions: DaDataSuggestionAnyType[]
 }
 
+// Документация: https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669107#id-%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B7%D0%BA%D0%B8%D0%BF%D0%BE%D0%B0%D0%B4%D1%80%D0%B5%D1%81%D1%83(API)-%D0%9F%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B
+export interface DaDataQueryData extends LocationOptions {
+  query: string,
+  count?: number,
+  language?: string,
+  from_bound?: DaDataBound,
+  to_bound?: DaDataBound,
+}
 
 export interface PluginOptions {
   tag?: string,
@@ -272,8 +280,8 @@ export interface IPropsComponentContext {
   debounceOptions: DebounceSettings,
   cssClasses: CssClasses | Record<string, string>,
   locations: LocationOptions,
-  fromBound: DaDataBound,
-  toBound: DaDataBound,
+  fromBound: DaDataAddressBounds,
+  toBound: DaDataAddressBounds,
 }
 
 export type CurrentInstance = {
