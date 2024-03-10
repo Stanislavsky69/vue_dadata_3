@@ -74,7 +74,7 @@ export const propsComponent = {
     },
     debounceWait: {
        type: Number,
-       default: 0
+       default: 300
     },
     debounceOptions: {
         type: Object as PropType<DebounceSettings>,
@@ -103,6 +103,7 @@ export const useDaData = (): ComposableDaData => {
     const suggestions = ref<DaDataSuggestionAnyType[]>([]);
     const showList = ref<boolean>(false);
     const dadataDom = ref<HTMLElement | null>(null);
+    const requestCache = new Map<string, DaDataSuggestionAnyType[]>();
 
     const token = computed(() => {
         if (props.token) return props.token;
@@ -127,24 +128,25 @@ export const useDaData = (): ComposableDaData => {
 
         return `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${props.type}`;
     });
-    const params = computed<AxiosRequestConfig<DaDataQueryData>>((): AxiosRequestConfig<DaDataQueryData> => {
-        if (token.value) {
-            return merge({
-                method: 'POST',
-                url: url.value,
-                headers: {
-                    Authorization: `Token ${token.value}`,
-                    'content-type': 'application/json',
-                    accept: 'application/json',
-                },
-                data: buildQueryData(),
-            }, props.mergeParams);
-        }
 
+    function makeRequestParams(url: string, token: string|null, query: string, data: Partial<DaDataQueryData> = {}, params: Record<string, any> = {}): AxiosRequestConfig<DaDataQueryData> {
+      if (!token || !query.trim()) {
         return {};
-    });
+      }
 
-    const buildQueryData = (): DaDataQueryData => {
+      return merge({
+        method: 'POST',
+        url: url,
+        headers: {
+          Authorization: `Token ${token}`,
+          'content-type': 'application/json',
+          accept: 'application/json',
+        },
+        data: buildQueryData(data),
+      }, params);
+    }
+
+    function buildQueryData(extra: Partial<DaDataQueryData> = {}): DaDataQueryData {
         const data: DaDataQueryData = {
             query: localValue.value,
             ...props.locations,
@@ -162,7 +164,7 @@ export const useDaData = (): ComposableDaData => {
             };
         }
 
-        return data;
+        return merge(data, extra);
     }
 
     const bindCloseClickOutside = () => {
@@ -218,28 +220,40 @@ export const useDaData = (): ComposableDaData => {
         return copyValue;
     };
 
+    function apiRequest(query: string, data: Partial<DaDataQueryData> = {}): Promise<DaDataSuggestionAnyType[]|undefined> {
+      const params = makeRequestParams(url.value, token.value, query, data, props.mergeParams);
 
-    const search = _debounce((success = (data: any) => data, error = () => ({})): void => {
-        if(!params.value){
-            error();
-            throw 'vue-dadata-3: Не указаны параметры запроса';
-        }
-
-        axios(params.value).then((response: AxiosResponse<DaDataSuggestions>) => {
-            if (response && response.data) {
-                if (typeof response.data.suggestions !== 'undefined') {
-                    suggestions.value = response.data.suggestions;
-                    success(suggestions.value)
-                } else {
-                    error();
-                    throw 'vue-dadata-3:Свойство suggestions не найдено';
-                }
+      return axios(params)
+        .then((response: AxiosResponse<DaDataSuggestions>) => {
+          if (response && response.data) {
+            if (typeof response.data.suggestions !== 'undefined') {
+              return response.data.suggestions;
+            } else {
+              console.error('vue-dadata-3: Свойство suggestions не найдено');
             }
+          }
         });
+    }
 
+    const search = _debounce(() => {
+      const query = localValue.value.trim();
+
+      if (requestCache.has(query)) {
+        suggestions.value = requestCache.get(query)!;
+
+        return;
+      }
+
+      apiRequest(localValue.value)
+        .then(response => {
+          if (response) {
+            requestCache.set(query, response);
+            suggestions.value = response;
+          }
+        })
     }, props.debounceWait, { ...DEBOUNCE_DEFAULT_SETTINGS, ...props.debounceOptions });
 
-    const onSelected = (data: any): void => {
+    const onSelected = (data: DaDataSuggestionAnyType): void => {
         localValue.value = data.value;
 
         if ('setInputValue' in props && typeof props.setInputValue === 'function') {
