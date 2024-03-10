@@ -90,11 +90,9 @@ export const propsComponent = {
     },
     fromBound: {
       type: String as PropType<DaDataAddressBounds>,
-      default: () => ({}),
     },
     toBound: {
       type: String as PropType<DaDataAddressBounds>,
-      default: () => ({}),
     },
 }
 
