@@ -44,7 +44,8 @@ import { useDaData, emitsComponent, propsComponent } from './useDaData';
 defineProps(propsComponent);
 defineEmits(emitsComponent);
 
-const { 
+const {
+  fixValue,
   prepareResults,
   onSelected,
   onFocus,
@@ -53,8 +54,11 @@ const {
   localValue,
   suggestions,
   computedCssClasses,
-  dadataDom
+  dadataDom,
 } = useDaData();
 
+defineExpose({
+  fixValue,
+});
 
 </script>

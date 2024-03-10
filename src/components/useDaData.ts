@@ -235,6 +235,27 @@ export const useDaData = (): ComposableDaData => {
         });
     }
 
+    function fixValue(): void {
+      const query = localValue.value.trim();
+
+      if (!query) {
+        return;
+      }
+
+      if (requestCache.has(query)) {
+        onSelected(requestCache.get(query)![0]);
+
+        return;
+      }
+
+      apiRequest(query, {count: 1})
+        .then(suggestions => {
+          if (suggestions && suggestions[0]) {
+            onSelected(suggestions[0]);
+          }
+        });
+    }
+
     const search = _debounce(() => {
       const query = localValue.value.trim();
 
@@ -295,6 +316,7 @@ export const useDaData = (): ComposableDaData => {
      });
 
     return {
+        fixValue,
         search,
         onInput,
         onFocus,

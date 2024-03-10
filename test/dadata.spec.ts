@@ -206,4 +206,20 @@ describe('Тестирование компонента dadata-vue-3', () => {
 
         expect(input.element.value).toBe('ул Тестовая');
     });
+
+  it('Метод fixValue', async () => {
+    const component = mount(DaDataNext, {
+      props: {
+        modelValue: ref('Москва'),
+        token: MOCK_TOKEN,
+      },
+    });
+
+    await component.vm.fixValue();
+
+    await vi.waitFor(async () => {
+      expect(component.emitted()).toHaveProperty('onSelected');
+      expect(component.emitted()).toHaveProperty('update:modelValue', [['Тест']]);
+    }, {interval: 5});
+  });
 })
