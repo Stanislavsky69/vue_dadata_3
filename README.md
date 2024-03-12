@@ -105,7 +105,7 @@ import "vue-dadata-3/index.css";
       default: 'address',
     },
     setInputValue: {
-      type: Function,
+      type: Function as PropType<(item: DaDataSuggestionAnyType) => string>,
     },
     apiUrl: {
       type: String,
@@ -116,8 +116,8 @@ import "vue-dadata-3/index.css";
       default: 'address',
     },
     inputId: {
-      type: String,
-      default: null
+        type: String,
+        default: null
     },
     placeholder: {
       type: String,
@@ -129,7 +129,7 @@ import "vue-dadata-3/index.css";
     },
     debounceWait: {
        type: Number,
-       default: 0
+       default: 300,
     },
     debounceOptions: {
         type: Object as PropType<DebounceSettings>,
@@ -144,12 +144,10 @@ import "vue-dadata-3/index.css";
       default: () => ({}),
     },
     fromBound: {
-      type: Object as PropType<DaDataBound>,
-      default: () => ({}),
+      type: String as PropType<DaDataAddressBounds>,
     },
     toBound: {
-      type: Object as PropType<DaDataBound>,
-      default: () => ({}),
+      type: String as PropType<DaDataAddressBounds>,
     },
 }
 
