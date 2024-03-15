@@ -236,7 +236,7 @@ export const useDaData = (): ComposableDaData => {
     }
 
     function restoreSuggestion(): void {
-      const query = localValue.value.trim();
+      const query = localValue.value?.trim();
 
       if (!query) {
         return;
@@ -257,7 +257,7 @@ export const useDaData = (): ComposableDaData => {
     }
 
     const search = _debounce(() => {
-      const query = localValue.value.trim();
+      const query = localValue.value?.trim();
 
       if (requestCache.has(query)) {
         suggestions.value = requestCache.get(query)!;
