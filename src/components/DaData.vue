@@ -45,7 +45,7 @@ defineProps(propsComponent);
 defineEmits(emitsComponent);
 
 const {
-  fixValue,
+  restoreSuggestion,
   prepareResults,
   onSelected,
   onFocus,
@@ -58,7 +58,7 @@ const {
 } = useDaData();
 
 defineExpose({
-  fixValue,
+  restoreSuggestion,
 });
 
 </script>

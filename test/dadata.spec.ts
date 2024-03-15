@@ -207,7 +207,7 @@ describe('Тестирование компонента dadata-vue-3', () => {
         expect(input.element.value).toBe('ул Тестовая');
     });
 
-  it('Метод fixValue', async () => {
+  it('Метод restoreSuggestion', async () => {
     const component = mount(DaDataNext, {
       props: {
         modelValue: ref('Москва'),
@@ -215,7 +215,7 @@ describe('Тестирование компонента dadata-vue-3', () => {
       },
     });
 
-    await component.vm.fixValue();
+    await component.vm.restoreSuggestion();
 
     await vi.waitFor(async () => {
       expect(component.emitted()).toHaveProperty('onSelected');

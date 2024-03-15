@@ -291,7 +291,7 @@ export type CurrentInstance = {
 }
 
 export type ComposableDaData = {
-  fixValue: () => void,
+  restoreSuggestion: () => void,
   search: () => void,
   onInput: (event: Event) => void,
   onFocus: (event: Event) => void,

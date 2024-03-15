@@ -235,7 +235,7 @@ export const useDaData = (): ComposableDaData => {
         });
     }
 
-    function fixValue(): void {
+    function restoreSuggestion(): void {
       const query = localValue.value.trim();
 
       if (!query) {
@@ -316,7 +316,7 @@ export const useDaData = (): ComposableDaData => {
      });
 
     return {
-        fixValue,
+        restoreSuggestion,
         search,
         onInput,
         onFocus,
