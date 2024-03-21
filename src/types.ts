@@ -292,6 +292,7 @@ export type CurrentInstance = {
 
 export type ComposableDaData = {
   restoreSuggestion: () => void,
+  setSelected: (data: DaDataSuggestionAnyType) => void,
   search: () => void,
   onInput: (event: Event) => void,
   onFocus: (event: Event) => void,

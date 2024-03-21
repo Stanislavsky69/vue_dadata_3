@@ -243,7 +243,7 @@ export const useDaData = (): ComposableDaData => {
       }
 
       if (requestCache.has(query)) {
-        onSelected(requestCache.get(query)![0]);
+        setSelected(requestCache.get(query)![0]);
 
         return;
       }
@@ -251,7 +251,7 @@ export const useDaData = (): ComposableDaData => {
       apiRequest(query, {count: 1})
         .then(suggestions => {
           if (suggestions && suggestions[0]) {
-            onSelected(suggestions[0]);
+            setSelected(suggestions[0]);
           }
         });
     }
@@ -274,17 +274,22 @@ export const useDaData = (): ComposableDaData => {
         })
     }, props.debounceWait, { ...DEBOUNCE_DEFAULT_SETTINGS, ...props.debounceOptions });
 
+    function setSelected(data: DaDataSuggestionAnyType): void {
+      localValue.value = data.value;
+
+      if ('setInputValue' in props && typeof props.setInputValue === 'function') {
+        localValue.value = props.setInputValue(toRaw(data));
+      }
+
+      emit('onSelected', data);
+    }
+
     const onSelected = (data: DaDataSuggestionAnyType): void => {
-        localValue.value = data.value;
+      setSelected(data);
 
-        if ('setInputValue' in props && typeof props.setInputValue === 'function') {
-            localValue.value = props.setInputValue(toRaw(data));
-        }
-
-        emit('onSelected', data);
-
-        showList.value = false;
+      showList.value = false;
     };
+
     const onFocus = (event: Event): void => {
         showList.value = true;
 
@@ -317,6 +322,7 @@ export const useDaData = (): ComposableDaData => {
 
     return {
         restoreSuggestion,
+        setSelected,
         search,
         onInput,
         onFocus,
