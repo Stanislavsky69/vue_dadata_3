@@ -74,7 +74,7 @@ export const propsComponent = {
     },
     debounceWait: {
        type: Number,
-       default: 300,
+       default: 150,
     },
     debounceOptions: {
         type: Object as PropType<DebounceSettings>,
