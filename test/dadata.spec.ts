@@ -33,7 +33,7 @@ vi.mock('lodash-es', async () => {
     let lodash;
 
     await vi.importActual('lodash-es').then(utils => lodash = utils)
-    
+
     return {
         ...lodash,
         debounce: (fn) => {
@@ -85,9 +85,8 @@ describe('Тестирование компонента dadata-vue-3', () => {
 
         await input.trigger('focus');
 
-        const element = component.find(`.${CSS_CLASSES_DEFAULT.row}:first-child`);
-
-        element.trigger('click');
+        await vi.waitFor(() => component.find(`.${CSS_CLASSES_DEFAULT.row}:first-child`)
+          .trigger('click'), {interval: 5});
 
         expect(component.emitted()).toHaveProperty('onSelected');
     });
@@ -100,11 +99,10 @@ describe('Тестирование компонента dadata-vue-3', () => {
             }
         });
         const input = component.find('input');
-       
+
         await input.setValue('Тест 3');
 
-        expect(component.html()).toContain('Тест 2');
-
+        await vi.waitFor(() => expect(component.html()).toContain('Тест 2'), {interval: 5});
     });
 
     it('Показ списка на фокус', async () => {
@@ -115,11 +113,10 @@ describe('Тестирование компонента dadata-vue-3', () => {
             }
         });
         const input = component.find('input');
-       
+
         await input.trigger('focus');
 
-        expect(component.html()).toContain('Тест 2');
-
+        await vi.waitFor(() => expect(component.html()).toContain('Тест 2'), {interval: 5});
     });
 
     it('Закрытие списка на клик вне области', async () => {
@@ -130,7 +127,7 @@ describe('Тестирование компонента dadata-vue-3', () => {
             },
         });
         const input = component.find('input');
-       
+
         await input.trigger('focus');
 
         document.dispatchEvent(new Event('click'));
@@ -155,8 +152,7 @@ describe('Тестирование компонента dadata-vue-3', () => {
         const input = component.find('input');
         await input.trigger('focus');
 
-        expect(component.html()).toContain('ул Тестовая 2');
-
+        await vi.waitFor(() => expect(component.html()).toContain('ул Тестовая 2'), {interval: 5});
     });
 
     it('Параметра слота prepareValue', async () => {
@@ -175,10 +171,7 @@ describe('Тестирование компонента dadata-vue-3', () => {
 
         await input.trigger('focus');
 
-        const highlights = component.findAll('.highlights');
-
-        expect(highlights.length > 0).toBe(true);
-
+        await vi.waitFor(() => expect(component.findAll('.highlights').length > 0).toBe(true), {interval: 5});
     });
 
     it('Коллбэк setInputValue', async () => {
@@ -205,10 +198,28 @@ describe('Тестирование компонента dadata-vue-3', () => {
 
         await input.trigger('focus');
 
-        const element =  mountComponent.find(`.${CSS_CLASSES_DEFAULT.row}:first-child`);
+        await vi.waitFor(async () => {
+          const element =  mountComponent.find(`.${CSS_CLASSES_DEFAULT.row}:first-child`);
 
-        await element.trigger('click');
+          await element.trigger('click');
+        }, {interval: 5});
 
         expect(input.element.value).toBe('ул Тестовая');
     });
+
+  it('Метод restoreSuggestion', async () => {
+    const component = mount(DaDataNext, {
+      props: {
+        modelValue: ref('Москва'),
+        token: MOCK_TOKEN,
+      },
+    });
+
+    await component.vm.restoreSuggestion();
+
+    await vi.waitFor(async () => {
+      expect(component.emitted()).toHaveProperty('onSelected');
+      expect(component.emitted()).toHaveProperty('update:modelValue', [['Тест']]);
+    }, {interval: 5});
+  });
 })
