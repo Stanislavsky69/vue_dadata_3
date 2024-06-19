@@ -47,7 +47,7 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.7.2",
     "lodash-es": "^4.17.21",
     "vue": "^3.2.25"
   },
