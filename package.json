@@ -1,6 +1,6 @@
 {
   "name": "vue-dadata-3",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
   "files": [
@@ -47,7 +47,7 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.7.2",
     "lodash-es": "^4.17.21",
     "vue": "^3.2.25"
   },
