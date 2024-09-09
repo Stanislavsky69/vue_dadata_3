@@ -1,7 +1,7 @@
 import {DebounceSettings} from "lodash-es";
 import {Ref, WritableComputedRef, ComputedRef} from 'vue';
 
-
+export type DaDataTypes = 'fio'|'address'|'email'|'party'|'bank';
 
 export type DaDataResult<T> = {
   value: string,
@@ -269,7 +269,7 @@ export interface LocationOptions {
 export interface IPropsComponentContext {
   modelValue: string,
   token: string,
-  type: string,
+  type: DaDataTypes,
   setInputValue?: (item: DaDataSuggestionAnyType) => string,
   apiUrl: string,
   inputName: string,

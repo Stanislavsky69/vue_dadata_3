@@ -17,6 +17,7 @@ import {
   DaDataQueryData,
   DaDataSuggestionAnyType,
   DaDataSuggestions,
+  DaDataTypes,
   ComposableDaData,
   LocationOptions,
 } from '../types';
@@ -46,7 +47,7 @@ export const propsComponent = {
       default: null,
     },
     type: {
-      type: String,
+      type: String as PropType<DaDataTypes>,
       default: 'address',
     },
     setInputValue: {
