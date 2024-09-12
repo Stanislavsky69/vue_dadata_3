@@ -131,8 +131,8 @@ export const useDaData = (): ComposableDaData => {
     });
 
     function makeRequestParams(url: string, token: string|null, query: string, data: Partial<DaDataQueryData> = {}, params: Record<string, any> = {}): AxiosRequestConfig<DaDataQueryData> {
-      if (!token || !query.trim()) {
-        return {};
+      if (!token) {
+        throw new Error('No DaData token provided');
       }
 
       return merge({
@@ -222,6 +222,10 @@ export const useDaData = (): ComposableDaData => {
     };
 
     function apiRequest(query: string, data: Partial<DaDataQueryData> = {}): Promise<DaDataSuggestionAnyType[]|undefined> {
+      if (!query.trim()) {
+        return new Promise(resolve => resolve());
+      }
+
       const params = makeRequestParams(url.value, token.value, query, data, props.mergeParams);
 
       return axios(params)
