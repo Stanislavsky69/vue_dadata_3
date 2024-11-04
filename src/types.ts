@@ -282,6 +282,7 @@ export interface IPropsComponentContext {
   locations: LocationOptions,
   fromBound: DaDataAddressBounds,
   toBound: DaDataAddressBounds,
+  enabledCacheQuery?: boolean
 }
 
 export type CurrentInstance = {
