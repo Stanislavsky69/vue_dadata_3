@@ -95,6 +95,10 @@ export const propsComponent = {
     toBound: {
       type: String as PropType<DaDataAddressBounds>,
     },
+    enabledCacheQuery: {
+      type: Boolean,
+      default: false
+    }
 }
 
 export const emitsComponent = ['update:modelValue', 'onSelected', 'focus', 'input'];
@@ -221,12 +225,18 @@ export const useDaData = (): ComposableDaData => {
         return copyValue;
     };
 
-    function apiRequest(query: string, data: Partial<DaDataQueryData> = {}): Promise<DaDataSuggestionAnyType[]|undefined> {
+    function apiRequest(query: string, data: Partial<DaDataQueryData> = {}): Promise<DaDataSuggestionAnyType[] | undefined> {
       if (!query.trim()) {
-        return new Promise(resolve => resolve());
+        return new Promise(resolve => resolve(undefined));
       }
 
-      const params = makeRequestParams(url.value, token.value, query, data, props.mergeParams);
+      const params = makeRequestParams(
+        url.value,
+        token.value,
+        query, 
+        data, 
+        props.mergeParams
+      );
 
       return axios(params)
         .then((response: AxiosResponse<DaDataSuggestions>) => {
@@ -247,7 +257,7 @@ export const useDaData = (): ComposableDaData => {
         return;
       }
 
-      if (requestCache.has(query)) {
+      if (requestCache.has(query) && props.enabledCacheQuery) {
         setSelected(requestCache.get(query)![0]);
 
         return;
@@ -264,7 +274,7 @@ export const useDaData = (): ComposableDaData => {
     const search = _debounce(() => {
       const query = localValue.value?.trim();
 
-      if (requestCache.has(query)) {
+      if (requestCache.has(query) && props.enabledCacheQuery) {
         suggestions.value = requestCache.get(query)!;
 
         return;
@@ -272,8 +282,11 @@ export const useDaData = (): ComposableDaData => {
 
       apiRequest(localValue.value)
         .then(response => {
-          if (response) {
+          if(response && props.enabledCacheQuery){
             requestCache.set(query, response);
+          }
+
+          if (response) {
             suggestions.value = response;
           }
         })
@@ -323,7 +336,9 @@ export const useDaData = (): ComposableDaData => {
 
     watch(() => props.modelValue, () => {
          localValue.value = props.modelValue;
-     });
+    });
+
+  
 
     return {
         restoreSuggestion,

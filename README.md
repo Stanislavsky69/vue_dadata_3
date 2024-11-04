@@ -149,6 +149,10 @@ import "vue-dadata-3/index.css";
     toBound: {
       type: String as PropType<DaDataAddressBounds>,
     },
+    enabledCacheQuery: {
+      type: Boolean,
+      default: false
+    }
 }
 
 ```
@@ -198,6 +202,7 @@ import "vue-dadata-3/index.css";
   ```vue
   <DaDataNext from-bound="city" to-bound="city"/>
   ```
+- **enabledCacheQuery** - настройка включения и отключения кэширования строки поиска
 
 ### События
 

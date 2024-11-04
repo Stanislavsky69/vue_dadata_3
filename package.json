@@ -1,6 +1,6 @@
 {
   "name": "vue-dadata-3",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "private": false,
   "description": "Компонент для работы с dadata для vue 3",
   "files": [
